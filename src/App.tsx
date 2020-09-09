@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
 
-function Square(props) {
+type cell = "X" | "O" | null;
+interface SquareProps {
+  onClick: () => void,
+  value: cell
+}
+const Square: React.FC<SquareProps> = (props) => {
   return (
     <button className="square" onClick={props.onClick}>
       {props.value}
@@ -10,8 +15,12 @@ function Square(props) {
   );
 }
 
-const Board = (props) => {
-  const renderSquare = (i) => {
+interface BoardProps {
+  squares: cell[],
+  onClick: (i: number) => void
+}
+const Board: React.FC<BoardProps> = (props) => {
+  const renderSquare = (i: number) => {
     return (
       <Square
         value={props.squares[i]}
@@ -41,8 +50,13 @@ const Board = (props) => {
     );
 }
 
-const Game = (props) =>  {
-  const [historyValue, setHistoryValue] = useState([
+const Game: React.FC = (props) =>  {
+
+  interface historyValueObject {
+    squares: cell[];
+  }
+
+  const [historyValue, setHistoryValue] = useState<historyValueObject[]>([
     {
       squares: Array(9).fill(null)
     }
@@ -50,7 +64,7 @@ const Game = (props) =>  {
   const [stepNumberValue, setStepNumberValue] = useState(0);
   const [xIsNextValue, setXIsNextValue] = useState(true);
 
-  const handleClick = (i) => {
+  const handleClick = (i: number) => {
     const history = historyValue.slice(0, stepNumberValue + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
@@ -69,7 +83,7 @@ const Game = (props) =>  {
 
   }
 
-  const jumpTo = (step) => {
+  const jumpTo = (step: number) => {
     setStepNumberValue(step);
     setXIsNextValue((step % 2) === 0)
   }
@@ -116,7 +130,7 @@ const Game = (props) =>  {
 
 ReactDOM.render(<Game />, document.getElementById("root"));
 
-function calculateWinner(squares) {
+function calculateWinner(squares: cell[]) {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
