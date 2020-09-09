@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
 
-type SquareProps = {
+type cell = "X" | "O" | null;
+interface SquareProps {
   onClick: () => void,
-  value: string
+  value: cell
 }
-const Square = (props: SquareProps) => {
+const Square: React.FC<SquareProps> = (props) => {
   return (
     <button className="square" onClick={props.onClick}>
       {props.value}
@@ -14,11 +15,11 @@ const Square = (props: SquareProps) => {
   );
 }
 
-type BoardProps = {
-  squares: string[],
+interface BoardProps {
+  squares: cell[],
   onClick: (i: number) => void
 }
-const Board = (props: BoardProps) => {
+const Board: React.FC<BoardProps> = (props) => {
   const renderSquare = (i: number) => {
     return (
       <Square
@@ -51,11 +52,11 @@ const Board = (props: BoardProps) => {
 
 const Game: React.FC = (props) =>  {
 
-  interface historyObject {
-    squares: string[];
+  interface historyValueObject {
+    squares: cell[];
   }
 
-  const [historyValue, setHistoryValue] = useState([
+  const [historyValue, setHistoryValue] = useState<historyValueObject[]>([
     {
       squares: Array(9).fill(null)
     }
@@ -129,7 +130,7 @@ const Game: React.FC = (props) =>  {
 
 ReactDOM.render(<Game />, document.getElementById("root"));
 
-function calculateWinner(squares: string[]) {
+function calculateWinner(squares: cell[]) {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
