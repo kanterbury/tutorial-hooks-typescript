@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core'
 import './App.css';
 
 type cell = "X" | "O" | null;
@@ -7,9 +9,28 @@ interface SquareProps {
   onClick: () => void,
   value: cell
 }
+
+const squareStyle = css`
+background: #fff;
+border: 1px solid #999;
+float: left;
+font-size: 24px;
+font-weight: bold;
+line-height: 34px;
+height: 34px;
+margin-right: -1px;
+margin-top: -1px;
+padding: 0;
+text-align: center;
+width: 34px;
+&:focus {
+  outline: none;
+}
+`
+
 const Square: React.FC<SquareProps> = (props) => {
   return (
-    <button className="square" onClick={props.onClick}>
+    <button css={squareStyle} onClick={props.onClick}>
       {props.value}
     </button>
   );
@@ -29,19 +50,27 @@ const Board: React.FC<BoardProps> = (props) => {
     );
   }
 
+  const boardRowStyle = css`
+    &:after {
+      clear: both;
+      content: "";
+      display: table;
+    }
+  `
+
     return (
       <div>
-        <div className="board-row">
+        <div css={boardRowStyle}>
           {renderSquare(0)}
           {renderSquare(1)}
           {renderSquare(2)}
         </div>
-        <div className="board-row">
+        <div css={boardRowStyle}>
           {renderSquare(3)}
           {renderSquare(4)}
           {renderSquare(5)}
         </div>
-        <div className="board-row">
+        <div css={boardRowStyle}>
           {renderSquare(6)}
           {renderSquare(7)}
           {renderSquare(8)}
@@ -110,15 +139,23 @@ const Game: React.FC = (props) =>  {
       status = "Next player: " + (xIsNextValue ? "X" : "O");
     }
 
+    const gameStyle = css`
+      display: flex;
+      flex-direction: row;
+    `
+    const gameInfoStyle = css`
+      margin-left: 20px;
+    `
+
     return (
-      <div className="game">
+      <div css={gameStyle}>
         <div className="game-board">
           <Board
             squares={current.squares}
             onClick={i => handleClick(i)}
           />
         </div>
-        <div className="game-info">
+        <div css={gameInfoStyle}>
           <div>{status}</div>
           <ol>{moves}</ol>
         </div>
