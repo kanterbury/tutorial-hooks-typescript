@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core'
+import styled from '@emotion/styled'
 import './App.css';
 
 type cell = "X" | "O" | null;
@@ -11,26 +12,28 @@ interface SquareProps {
 }
 
 const Square: React.FC<SquareProps> = (props) => {
+  const SquareButton = styled.button`
+  background: #fff;
+  border: 1px solid #999;
+  float: left;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 34px;
+  height: 34px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 34px;
+  &:focus {
+    outline: none;
+  };
+  `
+
   return (
-    <button css={css`
-    background: #fff;
-    border: 1px solid #999;
-    float: left;
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 34px;
-    height: 34px;
-    margin-right: -1px;
-    margin-top: -1px;
-    padding: 0;
-    text-align: center;
-    width: 34px;
-    &:focus {
-      outline: none;
-    }
-    `} onClick={props.onClick}>
+    <SquareButton onClick={props.onClick}>
       {props.value}
-    </button>
+    </SquareButton>
   );
 }
 
@@ -56,23 +59,31 @@ const Board: React.FC<BoardProps> = (props) => {
     }
   `
 
+  const BoardRow = styled.div`
+    &:after {
+      clear: both;
+      content: "";
+      display: table;
+    }
+  `
+
     return (
       <div>
-        <div css={boardRowStyle}>
+        <BoardRow>
           {renderSquare(0)}
           {renderSquare(1)}
           {renderSquare(2)}
-        </div>
-        <div css={boardRowStyle}>
+        </BoardRow>
+        <BoardRow>
           {renderSquare(3)}
           {renderSquare(4)}
           {renderSquare(5)}
-        </div>
-        <div css={boardRowStyle}>
+        </BoardRow>
+        <BoardRow>
           {renderSquare(6)}
           {renderSquare(7)}
           {renderSquare(8)}
-        </div>
+        </BoardRow>
       </div>
     );
 }
