@@ -10,27 +10,25 @@ interface SquareProps {
   value: cell
 }
 
-const squareStyle = css`
-background: #fff;
-border: 1px solid #999;
-float: left;
-font-size: 24px;
-font-weight: bold;
-line-height: 34px;
-height: 34px;
-margin-right: -1px;
-margin-top: -1px;
-padding: 0;
-text-align: center;
-width: 34px;
-&:focus {
-  outline: none;
-}
-`
-
 const Square: React.FC<SquareProps> = (props) => {
   return (
-    <button css={squareStyle} onClick={props.onClick}>
+    <button css={css`
+    background: #fff;
+    border: 1px solid #999;
+    float: left;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 34px;
+    height: 34px;
+    margin-right: -1px;
+    margin-top: -1px;
+    padding: 0;
+    text-align: center;
+    width: 34px;
+    &:focus {
+      outline: none;
+    }
+    `} onClick={props.onClick}>
       {props.value}
     </button>
   );
@@ -139,23 +137,20 @@ const Game: React.FC = (props) =>  {
       status = "Next player: " + (xIsNextValue ? "X" : "O");
     }
 
-    const gameStyle = css`
+    return (
+      <div css={css`
       display: flex;
       flex-direction: row;
-    `
-    const gameInfoStyle = css`
-      margin-left: 20px;
-    `
-
-    return (
-      <div css={gameStyle}>
+    `}>
         <div className="game-board">
           <Board
             squares={current.squares}
             onClick={i => handleClick(i)}
           />
         </div>
-        <div css={gameInfoStyle}>
+        <div css={css`
+          margin-left: 20px;
+        `}>
           <div>{status}</div>
           <ol>{moves}</ol>
         </div>
