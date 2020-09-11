@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-/** @jsx jsx */
-import { jsx, css } from "@emotion/core";
+import { css } from "emotion";
 import { Cell } from "./Square";
 import Board from "./Board";
 import "./App.css";
@@ -86,7 +85,7 @@ const Game: React.FC = () => {
 
   return (
     <div
-      css={css`
+      className={css`
         display: flex;
         flex-direction: row;
       `}
@@ -95,7 +94,7 @@ const Game: React.FC = () => {
         <Board squares={current.squares} onClick={(i) => handleClick(i)} />
       </div>
       <div
-        css={css`
+        className={css`
           margin-left: 20px;
         `}
       >
